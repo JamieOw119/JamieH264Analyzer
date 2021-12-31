@@ -157,7 +157,7 @@ int CStreamFile::find_nal_prefix()
             m_nalVec.pop_back();
             m_nalVec.pop_back();
             getPrefix = 1;
-            return true;
+            break;
         }
         // 0x 00 00 00 01
         else if((prefix[pos % 3] == 0) && (prefix[(pos + 1) % 3] == 0) && (prefix[(pos + 2) % 3] == 0))

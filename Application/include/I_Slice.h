@@ -5,6 +5,7 @@
 #include "PicParamSet.h"
 #include "SeqParamSet.h"
 #include "SliceHeader.h"
+#include "Macroblock.h"
 
 #include <cstring>
 
@@ -26,6 +27,9 @@ private:
     CPicParamSet *m_pps_active;
     
     CSliceHeader *m_sliceHeader;
+
+    UINT16 m_max_mb_number;
+    CMacroblock **m_macroblocks;
 };
 
 
