@@ -2,13 +2,13 @@
 #include <vector>
 
 
-typedef unsigned char uint8;
+typedef unsigned char UINT8;
 
-static int find_nal_prefix(FILE *p_file_in, std::vector<uint8> &nalBytes)
+static int find_nal_prefix(FILE *p_file_in, std::vector<UINT8> &nalBytes)
 {
     FILE *p = p_file_in;
-    uint8 prefix[3] = {0};
-    uint8 fileByte;
+    UINT8 prefix[3] = {0};
+    UINT8 fileByte;
     int pos = 0;
     int getPrefix = 0;
 
@@ -60,7 +60,7 @@ int main(int argc, char const *argv[])
 
     while(!feof(p_file_in))
     {
-        std::vector<uint8> nalBytes;
+        std::vector<UINT8> nalBytes;
         find_nal_prefix(p_file_in, nalBytes);
 
         for(int idx = 0; idx < nalBytes.size(); idx++)

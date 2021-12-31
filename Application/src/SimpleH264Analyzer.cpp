@@ -1,5 +1,4 @@
-#include "../include/stream.h"
-#include "../include/global.h"
+#include "../include/Stream.h"
 
 int main(int argc, char const *argv[])
 {

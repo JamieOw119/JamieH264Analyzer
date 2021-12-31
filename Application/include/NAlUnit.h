@@ -1,16 +1,28 @@
 #ifndef _NALUNIT_H_
 #define _NALUNIT_H_
 
-#include "global.h"
+#include "Global.h"
+#include "Utils.h"
+#include "ErrorInfo.h"
+#include "SeqParamSet.h"
+#include "PicParamSet.h"
+#include "I_Slice.h"
 
 class CNALUnit
 {
 public:
-    CNALUnit(uint8 *pSODB, uint32 SODBlength);
+    CNALUnit(UINT8	*pSODB, UINT32	SODBLength, UINT8 nalType);
     ~CNALUnit();
+
+    int Parse_as_seq_param_set(CSeqParamSet *sps);
+    int Parse_as_pic_param_set(CPicParamSet *pps);
+    
+    UINT8 *GET_SODB();
+
 private:
-    uint8 *_pSODB;
-    uint32 _SODBlength;
+    UINT8	*m_pSODB;
+	UINT32	m_SODBLength;
+	UINT8	m_nalType;
 };
 
 #endif

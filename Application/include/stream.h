@@ -4,7 +4,12 @@
 #include <cstdio>
 #include <vector>
 
-#include "global.h"
+#include "Global.h"
+#include "NAlUnit.h"
+#include "Configuration.h"
+#include "SeqParamSet.h"
+#include "PicParamSet.h"
+#include "I_Slice.h"
 
 class CStreamFile
 {
@@ -18,11 +23,17 @@ public:
     int find_nal_prefix();
     void ebsp_to_sodb();
 
-private:
-    FILE *_inputfile;
-    char *_filename;
-    std::vector<uint8> _nalBytes;
+    void dump_NAL_type(UINT8 nalType);
 
+private:
+    FILE *m_inputfile;
+    char *m_filename;
+    std::vector<UINT8> m_nalVec;
+
+    CSeqParamSet *m_sps;
+    CPicParamSet *m_pps;
+
+    I_Slice *m_IDR_Slice;
 };
 
 #endif
