@@ -1,4 +1,6 @@
-#progma once
+#pragma once
 
-#include <string>
+#include <cmath>
 #include <cstring>
+#include <string>
+
