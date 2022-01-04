@@ -103,7 +103,7 @@ int CStreamFile::Parse_h264_bitstream()
                         delete m_IDR_Slice;
                         m_IDR_Slice = NULL;
                     }
-                    m_IDR_Slice = new I_Slice(nalUnit.GET_SODB(), m_sps, m_pps, nalType);
+                    m_IDR_Slice = new CSliceStruct(nalUnit.GET_SODB(), m_sps, m_pps, nalType);
                     m_IDR_Slice->Parse();
                     break;
                 case 7:

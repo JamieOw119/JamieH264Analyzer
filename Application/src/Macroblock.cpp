@@ -2,26 +2,53 @@
 
 using namespace std;
 
-CMacroblock::CMacroblock(UINT8 *pSODB, UINT32 offset)
+CMacroblock::CMacroblock(UINT8 *pSODB, UINT32 offset, UINT32 idx)
 {
     m_pSODB = pSODB;
     m_byteOffset = offset / 8;
     m_bitOffset = offset % 8;
 
+	m_mb_idx = idx;
+	m_mbDataSize = offset;
+
+	m_transform_size_8x8_flag = false;
+
     m_pps_active = NULL;
     m_mb_type = 0;
-    m_transform_size_8x8_flag = false;
     m_pred_struct = NULL;
     m_intra_chroma_pred_mode = 0;
+
     m_coded_block_pattern = 0;
     m_mb_qp_delta = 0;
+
+	m_cbp_luma= 0;
+	m_cbp_chroma = 0;
+
+	m_residual = NULL;
 }
 
-CMacroblock::~CMacroblock(){}
+CMacroblock::~CMacroblock()
+{
+	if(m_pred_struct)
+	{
+		delete []m_pred_struct;
+		m_pred_struct = NULL;
+	}
+	if(m_residual)
+	{
+		delete m_residual;
+		m_residual = NULL;
+	}
+}
 
 void CMacroblock::Set_pic_param_set(CPicParamSet *pps)
 {
     m_pps_active = pps;
+}
+
+void CMacroblock::Set_slice_struct(CSliceStruct *sliceStruct)
+{
+	m_slice = sliceStruct;
 }
 
 UINT32 CMacroblock::Parse_macroblock()
@@ -83,9 +110,41 @@ UINT32 CMacroblock::Parse_macroblock()
     if (m_cbp_luma > 0 || m_cbp_chroma > 0 || (m_mb_type > 0 && m_mb_type < 25))
 	{
 		m_mb_qp_delta = Get_sev_code_num(m_pSODB, m_byteOffset, m_bitOffset);
+		m_residual = new CResidual(m_pSODB, m_byteOffset * 8 + m_bitOffset, this);
+		m_residual->Parse_macroblock_residual();
 	}
 
+	m_mbDataSize = m_byteOffset * 8 + m_bitOffset - m_mbDataSize;
     return macroblockLength;
+}
+
+CPicParamSet *CMacroblock::Get_pps_active()
+{
+	return m_pps_active;
+}
+
+void CMacroblock::interpret_mb_mode()
+{
+	UINT8 slice_type = m_slice->m_sliceHeader->Get_slice_type();
+	switch (slice_type)
+	{
+	case SLICE_TYPE_I:
+		if (m_mb_type == 0)
+		{
+			m_mb_type = I4MB;
+		}
+		else if (m_mb_type == 25)
+		{
+			m_mb_type = IPCM;
+		}
+		else
+		{
+			m_mb_type = I16MB;
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void CMacroblock::Dump_macroblock_info()
@@ -93,6 +152,7 @@ void CMacroblock::Dump_macroblock_info()
 #if TRACE_CONFIG_LOGOUT
 
 #if TRACE_CONFIG_MACROBLOCK
+	g_traceFile << "***** MB: " << to_string(m_mb_idx) << " *****" <<endl;
 	g_traceFile << "mb_type: " << to_string(m_mb_type) << endl;
 	if (m_mb_type == 0)
 	{

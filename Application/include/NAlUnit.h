@@ -6,7 +6,7 @@
 #include "ErrorInfo.h"
 #include "SeqParamSet.h"
 #include "PicParamSet.h"
-#include "I_Slice.h"
+#include "SliceStruct.h"
 
 class CNALUnit
 {

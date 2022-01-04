@@ -9,7 +9,7 @@
 #include "Configuration.h"
 #include "SeqParamSet.h"
 #include "PicParamSet.h"
-#include "I_Slice.h"
+#include "SliceStruct.h"
 
 class CStreamFile
 {
@@ -33,7 +33,7 @@ private:
     CSeqParamSet *m_sps;
     CPicParamSet *m_pps;
 
-    I_Slice *m_IDR_Slice;
+    CSliceStruct *m_IDR_Slice;
 };
 
 #endif

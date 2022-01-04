@@ -1,5 +1,5 @@
-#ifndef _I_SLICE_H_
-#define _I_SLICE_H_
+#ifndef _SLICE_STRUCT_H_
+#define _SLICE_STRUCT_H_
 
 #include "Global.h"
 #include "PicParamSet.h"
@@ -11,13 +11,15 @@
 
 class CSliceHeader;
 
-class I_Slice
+class CSliceStruct
 {
 public:
-    I_Slice(UINT8 *pSODB, CSeqParamSet *sps, CPicParamSet *pps, UINT8 nalType);
-    ~I_Slice();
+    CSliceStruct(UINT8 *pSODB, CSeqParamSet *sps, CPicParamSet *pps, UINT8 nalType);
+    ~CSliceStruct();
 
     UINT32 Parse();
+
+    CSliceHeader *m_sliceHeader;
 
 private:
     UINT8 *m_pSODB;
@@ -25,9 +27,6 @@ private:
 
     CSeqParamSet *m_sps_active;
     CPicParamSet *m_pps_active;
-    
-    CSliceHeader *m_sliceHeader;
-
     UINT16 m_max_mb_number;
     CMacroblock **m_macroblocks;
 };
