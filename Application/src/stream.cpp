@@ -85,6 +85,7 @@ void CStreamFile::fileError(int idx)
 int CStreamFile::Parse_h264_bitstream()
 {
     int ret = 0;
+    UINT32 sliceIdx = 0;
     do
     {
         ret = find_nal_prefix();
@@ -103,7 +104,7 @@ int CStreamFile::Parse_h264_bitstream()
                         delete m_IDR_Slice;
                         m_IDR_Slice = NULL;
                     }
-                    m_IDR_Slice = new CSliceStruct(nalUnit.GET_SODB(), m_sps, m_pps, nalType);
+                    m_IDR_Slice = new CSliceStruct(nalUnit.GET_SODB(), m_sps, m_pps, nalType, sliceIdx++);
                     m_IDR_Slice->Parse();
                     break;
                 case 7:

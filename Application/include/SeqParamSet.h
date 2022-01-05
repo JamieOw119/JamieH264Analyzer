@@ -2,6 +2,7 @@
 #define _SEQ_PARAM_SET_H_
 
 #include <cstring>
+
 #include "Global.h"
 #include "Configuration.h"
 

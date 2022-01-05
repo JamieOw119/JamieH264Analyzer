@@ -2,6 +2,7 @@
 #define _SLICE_HEADER_H_
 
 #include <cstring>
+
 #include "PicParamSet.h"
 #include "SeqParamSet.h"
 #include "Global.h"

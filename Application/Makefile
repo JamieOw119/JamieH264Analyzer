@@ -1,7 +1,8 @@
 CC 	= g++
 objs = obj/SimpleH264Analyzer.o obj/Stream.o obj/NALUnit.o \
 	obj/Configuration.o obj/Utils.o obj/SeqParamSet.o obj/PicParamSet.o \
-	obj/SliceStruct.o obj/SliceHeader.o obj/Macroblock.o
+	obj/SliceStruct.o obj/SliceHeader.o obj/Macroblock.o \
+	obj/Residual.o
 #deps = include/global.h
 deps = 
 target = bin/SimpleH264Analyzer
@@ -41,6 +42,9 @@ obj/SliceHeader.o: src/SliceHeader.cpp $(deps)
 
 obj/Macroblock.o: src/Macroblock.cpp $(deps)
 	$(CC) -o obj/Macroblock.o -c $^ -I include
+
+obj/Residual.o: src/Residual.cpp $(deps)
+	$(CC) -o obj/Residual.o -c $^ -I include
 
 run:
 	./$(target) $(arg)
